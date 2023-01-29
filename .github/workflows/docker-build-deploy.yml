@@ -1,4 +1,4 @@
-name: web deploy
+name: Web deploy by docker
 on:
   push:
     branches: [ main ]

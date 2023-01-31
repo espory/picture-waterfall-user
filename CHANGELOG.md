@@ -1,5 +1,11 @@
 # 0.1.0 (2023-01-31)
 
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 添加图片上传界面 UI | [613da2f](https://github.com/espory/picture-waterfall-user/commit/613da2f)
+
+
 ### 📝 文档
 范围|描述|commitId
 --|--|--

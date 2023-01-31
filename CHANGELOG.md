@@ -1,4 +1,4 @@
-# 0.1.0 (2023-01-29)
+# 0.1.0 (2023-01-31)
 
 ### 📝 文档
 范围|描述|commitId
@@ -10,6 +10,7 @@
 范围|描述|commitId
 --|--|--
  - | 使用 GitHub Action 进行自动化部署 | [f353518](https://github.com/espory/picture-waterfall-user/commit/f353518)
+ - | 修改 GitHub Action 名称 | [b69b613](https://github.com/espory/picture-waterfall-user/commit/b69b613)
 
 
 ### chore

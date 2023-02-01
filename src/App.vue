@@ -14,7 +14,7 @@
         </div>
         <div class="nav__container__mid">
           <input
-            class="nav__container__mid__input"
+            class="common-input nav__container__mid__input"
             type="text"
             placeholder="搜索感兴趣的图片"
           />
@@ -50,7 +50,8 @@
 
 <style lang="less">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: PlusJakartaSans, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Cantarell, Helvetica Neue, Ubuntu, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -96,13 +97,7 @@
         height: 50px;
         display: flex;
         &__input {
-          width: calc(100% - 50px);
-          color: #7f7f7f;
           border-radius: 8px 0px 0px 8px;
-          border: 1px solid #f7f7f7;
-          background: #f7f7f7;
-          padding: 15px 4px 15px 20px;
-          font-weight: 600;
         }
         &__input:focus {
           outline: none;
@@ -131,6 +126,22 @@
 h1 {
   font-size: larger;
   color: red;
+}
+.common-input {
+  width: calc(100% - 50px);
+  color: #7f7f7f;
+  border: 1px solid #f7f7f7;
+  background: #f7f7f7;
+  padding: 15px 4px 15px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #4a4a4a;
+  border: none;
+}
+.common-input:focus {
+  outline: none;
+  border: none;
 }
 .common-button {
   color: #fff;

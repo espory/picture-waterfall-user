@@ -1,9 +1,17 @@
 <template>
   <div class="container">
-    <upload-home v-if="isShowUpload" />
+    <upload-home
+      v-if="isShowUploadHome"
+      :handleFileUpload="handleFileUpload"
+      :UPLOAD_TYPES="UPLOAD_TYPES"
+    />
     <upload-form
-      :pic-nav-active-id="picNavActiveId"
+      :picNavActiveId="picNavActiveId"
       :handlePicNavClick="handlePicNavClick"
+      :handleFileUpload="handleFileUpload"
+      :UPLOAD_TYPES="UPLOAD_TYPES"
+      :showFileList="showFileList"
+      :FILE_STATUS="FILE_STATUS"
       v-else
     />
   </div>
@@ -12,6 +20,7 @@
 <script>
 import UploadHome from "../components/Upload/UploadHome.vue";
 import UploadForm from "../components/Upload/UploadForm.vue";
+import { postUploadFile } from "../service";
 export default {
   name: "UploadView",
   components: {
@@ -21,8 +30,49 @@ export default {
   data: function () {
     return {
       picNavActiveId: 0,
-      fileList: [1],
+      fileList: [], // { id: 0, file: null, done: 0 }
+      // 图片上传的方式：拖拽上传 或 input 上传
+      UPLOAD_TYPES: {
+        DROP: "DROP",
+        INPUT: "INPUT",
+      },
+      FILE_STATUS: {
+        REDY: "REDY", // 图片准备上传
+        UPLOADING: "UPLOADING", //正在上传
+        DONE: "DONE", //上传完成
+      },
     };
+  },
+  watch: {
+    fileList: {
+      handler(newfileList) {
+        console.log(newfileList, "new");
+        const needPostItems = newfileList.filter(
+          (item) => item.status === this.FILE_STATUS.REDY
+        );
+        for (let index = 0; index < needPostItems.length; index++) {
+          const item = needPostItems[index];
+          item.status = this.FILE_STATUS.UPLOADING;
+          //并发上传图片
+          postUploadFile({ file: item.file }).then((res) => {
+            item.status = this.FILE_STATUS.DONE;
+            console.log(res);
+          });
+        }
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    //控制图片上传组件与 form 组件的切换
+    isShowUploadHome() {
+      return this.fileList.length === 0;
+    },
+    showFileList: function () {
+      return this.fileList.map((item) => {
+        return { imgURL: URL.createObjectURL(item.file), ...item };
+      });
+    },
   },
   mounted() {
     // 监听滚动事件，设置锚点定位
@@ -31,13 +81,6 @@ export default {
   destroy() {
     // 移除监听器，不然当该vue组件被销毁了，监听器还在
     window.removeEventListener("scroll", this.onScroll);
-  },
-
-  computed: {
-    //控制图片上传组件与 form 组件的切换
-    isShowUpload() {
-      return this.fileList.length === 0;
-    },
   },
   methods: {
     onScroll() {
@@ -130,6 +173,35 @@ export default {
     handlePicNavClick(id) {
       this.scrollTo(id);
       // this.picNavActiveId = id;
+    },
+    async handleFileUpload(e, type) {
+      if (type === this.UPLOAD_TYPES.DROP) {
+        e.preventDefault();
+      }
+      let files = null;
+      switch (type) {
+        case this.UPLOAD_TYPES.DROP:
+          files = e.dataTransfer.files;
+          break;
+        case this.UPLOAD_TYPES.INPUT:
+          files = e.target.files;
+          break;
+        default:
+          throw new Error("file upload error!");
+      }
+      const startIndex = this.fileList?.length || 0;
+      for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+        this.fileList.push({
+          id: startIndex + index,
+          file,
+          status: this.FILE_STATUS.REDY,
+        });
+        //并发上传图片
+        // postUploadFile({ file }).then((res) => {
+        //   console.log(res);
+        // });
+      }
     },
   },
 };

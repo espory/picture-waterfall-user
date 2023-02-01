@@ -36,7 +36,7 @@
       </div>
       <div class="nav__container__right">
         <button class="common-button" style="width: 80px; height: 50px">
-          上传图片
+          返回首页
         </button>
       </div>
     </div>

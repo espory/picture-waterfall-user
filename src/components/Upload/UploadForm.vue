@@ -23,26 +23,22 @@
           @change="handleFileUpload($event, UPLOAD_TYPES.INPUT)"
         />
         <div
-          v-for="item in [0, 1, 2]"
-          :key="item"
+          v-for="item in showFileList"
+          :key="item.id"
           :class="{
             form__left__card: true,
-            'form__left__card-selected': picNavActiveId === item,
+            'form__left__card-selected': picNavActiveId === item.id,
           }"
-          @click="handlePicNavClick(item)"
+          @click="handlePicNavClick(item.id)"
         >
-          <img
-            class="form__left__card__img"
-            src="../../assets/demo.png"
-            alt=""
-          />
+          <img class="form__left__card__img" :src="item.imgURL" alt="" />
         </div>
       </div>
     </div>
     <div class="form__right">
-      <div class="panel" v-for="item in [0, 1, 2]" :key="item">
+      <div class="panel" v-for="item in showFileList" :key="item.id">
         <div class="panel__item">
-          <img class="panel__item__img" src="../../assets/demo.png" alt="" />
+          <img class="panel__item__img" :src="item.imgURL" alt="" />
           <div class="panel__item__placeholder"></div>
           <div class="panel__item__form">
             <div
@@ -69,15 +65,23 @@
     </div>
     <div class="form__footer">
       <div class="form__footer__content">
-        <div class="form__footer__content__mention">
+        <div
+          :class="[
+            'form__footer__content__mention',
+            { form__footer__content__mention__pending: !uploadDone },
+          ]"
+        >
           <img
             src="../../assets/success.png"
             style="width: 20px; margin-right: 10px"
             alt=""
           />
-          已上传 0 张图片 ( 共计 3 张 )
+          已上传 {{ hasDoneNume }} 张图片 ( 共计 {{ uploadSum }} 张 )
         </div>
-        <button class="common-button form__footer__content__button">
+        <button
+          class="common-button form__footer__content__button"
+          :disabled="!uploadDone"
+        >
           提交内容
         </button>
       </div>
@@ -90,12 +94,28 @@ export default {
   name: "UploadForm",
   props: {
     picNavActiveId: Number,
+    UPLOAD_TYPES: Object,
     handlePicNavClick: Function,
+    handleFileUpload: Function,
+    showFileList: Array,
+    FILE_STATUS: Object,
   },
   data: function () {
-    return {
-      // 文件上传的方式：拖拽上传 或 input 上传
-    };
+    console.log(this.showFileList);
+    return {};
+  },
+  computed: {
+    hasDoneNume: function () {
+      return this.showFileList.filter(
+        (item) => item.status === this.FILE_STATUS.DONE
+      ).length;
+    },
+    uploadSum: function () {
+      return this.showFileList.length;
+    },
+    uploadDone: function () {
+      return this.hasDoneNume === this.uploadSum;
+    },
   },
 };
 </script>
@@ -135,6 +155,7 @@ export default {
       &__img {
         width: 80px;
         height: 80px;
+        object-fit: cover;
         border-radius: 10px;
         overflow: clip;
         overflow-clip-margin: content-box;
@@ -170,7 +191,7 @@ export default {
           flex: 1 0 48%;
           width: 0;
           display: block;
-          background-color: aquamarine;
+          // background-color: white;
           border-radius: 10px;
         }
         &__placeholder {
@@ -235,6 +256,9 @@ export default {
         align-items: center;
         color: #42a0ff;
         font-weight: 700;
+      }
+      &__mention__pending {
+        color: rgb(50, 37, 37);
       }
       &__button {
         width: 125px;

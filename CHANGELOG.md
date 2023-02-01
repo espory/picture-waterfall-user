@@ -22,6 +22,12 @@
  - | 修改 GitHub Action 名称 | [b69b613](https://github.com/espory/picture-waterfall-user/commit/b69b613)
 
 
+### 🔨 代码重构
+范围|描述|commitId
+--|--|--
+ - | 将上传组件进行拆分 | [25c46f5](https://github.com/espory/picture-waterfall-user/commit/25c46f5)
+
+
 ### chore
 范围|描述|commitId
 --|--|--

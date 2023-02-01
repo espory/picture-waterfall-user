@@ -31,34 +31,14 @@
 <script>
 export default {
   name: "UploadHome",
-  props: {},
+  props: {
+    UPLOAD_TYPES: Object,
+    handleFileUpload: Function,
+  },
   data: function () {
-    return {
-      // 文件上传的方式：拖拽上传 或 input 上传
-      UPLOAD_TYPES: {
-        DROP: "DROP",
-        INPUT: "INPUT",
-      },
-    };
+    return {};
   },
   methods: {
-    handleFileUpload(e, type) {
-      if (type === this.UPLOAD_TYPES.DROP) {
-        e.preventDefault();
-      }
-      let files = null;
-      switch (type) {
-        case this.UPLOAD_TYPES.DROP:
-          files = e.dataTransfer.files;
-          break;
-        case this.UPLOAD_TYPES.INPUT:
-          files = e.target.files;
-          break;
-        default:
-          throw new Error("file upload error!");
-      }
-      console.log(files);
-    },
     preventDragDefault(e) {
       e.preventDefault();
     },

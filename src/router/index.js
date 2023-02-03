@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UploadView from "../views/UploadView.vue";
+import ResultView from "../views/ResultView.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const routes = [
     // component: () =>
     //   import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
     component: UploadView,
+  },
+  {
+    path: "/b",
+    name: "result",
+    component: ResultView,
   },
 ];
 

@@ -1,6 +1,33 @@
 import fetch from "./common/fetch";
 
-export function postUploadFile({
+export function postUploadFile({ file }) {
+  const formData = new FormData();
+  formData.append(file.name, file);
+  return fetch({
+    url: "/pic/upload",
+    method: "post",
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
+/**
+ * @description: 用于创建文件
+ * @param {*} fileInfoList: tmpPath,username,title,intro,type,other
+ * @return {*}
+ */
+export function postCreateFiles(fileInfoList) {
+  return fetch({
+    url: "/pic/create",
+    method: "post",
+    data: {
+      fileInfoList,
+    },
+  });
+}
+export function postSubmitFile({
   file,
   username = "espory",
   title = "",

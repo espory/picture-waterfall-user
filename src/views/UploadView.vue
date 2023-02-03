@@ -11,7 +11,10 @@
       :handleFileUpload="handleFileUpload"
       :UPLOAD_TYPES="UPLOAD_TYPES"
       :showFileList="showFileList"
+      :updateFileForm="updateFileForm"
       :FILE_STATUS="FILE_STATUS"
+      :handlePanelRemove="handlePanelRemove"
+      :handleFilesCreate="handleFilesCreate"
       v-else
     />
   </div>
@@ -20,7 +23,7 @@
 <script>
 import UploadHome from "../components/Upload/UploadHome.vue";
 import UploadForm from "../components/Upload/UploadForm.vue";
-import { postUploadFile } from "../service";
+import { postUploadFile, postCreateFiles } from "../service";
 export default {
   name: "UploadView",
   components: {
@@ -30,7 +33,7 @@ export default {
   data: function () {
     return {
       picNavActiveId: 0,
-      fileList: [], // { id: 0, file: null, done: 0 }
+      fileList: [], // id, file, uploadStatus, tmpPath, username, title, intro, type, other
       // 图片上传的方式：拖拽上传 或 input 上传
       UPLOAD_TYPES: {
         DROP: "DROP",
@@ -46,21 +49,28 @@ export default {
   watch: {
     fileList: {
       handler(newfileList) {
-        console.log(newfileList, "new");
+        console.log(newfileList, "new1");
         const needPostItems = newfileList.filter(
-          (item) => item.status === this.FILE_STATUS.REDY
+          (item) => item.uploadStatus === this.FILE_STATUS.REDY
         );
         for (let index = 0; index < needPostItems.length; index++) {
           const item = needPostItems[index];
-          item.status = this.FILE_STATUS.UPLOADING;
+          item.uploadStatus = this.FILE_STATUS.UPLOADING;
           //并发上传图片
-          postUploadFile({ file: item.file }).then((res) => {
-            item.status = this.FILE_STATUS.DONE;
-            console.log(res);
+          postUploadFile({ file: item.file }).then(({ data }) => {
+            const { tmpPath } = data;
+            console.log(tmpPath);
+            item.uploadStatus = this.FILE_STATUS.DONE;
+            item.tmpPath = tmpPath;
+            console.log(tmpPath);
           });
         }
       },
-      deep: true,
+      // deep: true,
+    },
+
+    showFileList(newShowFileList) {
+      console.log(newShowFileList);
     },
   },
   computed: {
@@ -83,6 +93,12 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
   },
   methods: {
+    updateFileForm(id, attr, value) {
+      const fileForm = this.fileList.find((item) => item.id === id);
+      if (fileForm) {
+        fileForm[attr] = value;
+      }
+    },
     onScroll() {
       // 获取所有锚点元素
       const navContents = document.querySelectorAll(".panel");
@@ -119,7 +135,7 @@ export default {
     },
     scrollTo(index) {
       const headerHeight =
-        document.getElementsByClassName("nav")[0].clientHeight + 25 ?? 0;
+        document.getElementsByClassName("nav")[0].clientHeight + 10 ?? 0;
       // 获取目标的 offsetTop(考虑到 header)
       // css选择器是从 1 开始计数，我们是从 0 开始，所以要 +1
       const targetOffsetTop =
@@ -169,10 +185,20 @@ export default {
         }
       }
     },
-
-    handlePicNavClick(id) {
-      this.scrollTo(id);
+    handlePanelRemove(id) {
+      const inx = this.fileList.findIndex((item) => item.id === id);
+      if (inx !== -1) {
+        this.fileList.splice(inx, 1);
+      }
+    },
+    handlePicNavClick(index) {
+      this.scrollTo(index);
       // this.picNavActiveId = id;
+    },
+    async handleFilesCreate(fileInfoList) {
+      console.log(fileInfoList);
+      const res = await postCreateFiles(fileInfoList);
+      console.log(res);
     },
     async handleFileUpload(e, type) {
       if (type === this.UPLOAD_TYPES.DROP) {
@@ -189,19 +215,26 @@ export default {
         default:
           throw new Error("file upload error!");
       }
-      const startIndex = this.fileList?.length || 0;
+      const tempNewFileList = [];
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-        this.fileList.push({
-          id: startIndex + index,
+        tempNewFileList.push({
+          id: Math.random().toString(36).slice(-8),
           file,
-          status: this.FILE_STATUS.REDY,
+          uploadStatus: this.FILE_STATUS.REDY,
+          tmpPath: null,
+          username: "espory",
+          title: "",
+          intro: "",
+          type: "",
+          other: "",
         });
         //并发上传图片
         // postUploadFile({ file }).then((res) => {
         //   console.log(res);
         // });
       }
+      this.fileList.push(...tempNewFileList);
     },
   },
 };

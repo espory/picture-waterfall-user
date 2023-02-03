@@ -23,42 +23,51 @@
           @change="handleFileUpload($event, UPLOAD_TYPES.INPUT)"
         />
         <div
-          v-for="item in showFileList"
-          :key="item.id"
+          v-for="({ id, imgURL }, index) in showFileList"
+          :key="id"
           :class="{
             form__left__card: true,
-            'form__left__card-selected': picNavActiveId === item.id,
+            'form__left__card-selected': picNavActiveId === index,
           }"
-          @click="handlePicNavClick(item.id)"
+          @click="handlePicNavClick(index)"
         >
-          <img class="form__left__card__img" :src="item.imgURL" alt="" />
+          <img class="form__left__card__img" :src="imgURL" alt="" />
         </div>
       </div>
     </div>
     <div class="form__right">
-      <div class="panel" v-for="item in showFileList" :key="item.id">
+      <div
+        class="panel"
+        v-for="{ id, imgURL, ...info } in showFileList"
+        :key="id"
+      >
         <div class="panel__item">
-          <img class="panel__item__img" :src="item.imgURL" alt="" />
+          <img class="panel__item__img" :src="imgURL" alt="" />
           <div class="panel__item__placeholder"></div>
           <div class="panel__item__form">
             <div
-              v-for="item in [1, 2, 3, 4]"
+              v-for="attr in ['title', 'intro', 'type', 'other']"
               class="panel__item__form__card"
-              :key="item"
+              :key="attr"
             >
               <div class="panel__item__form__card__title">
-                <span>标题{{ item }} </span>
+                <span>{{ formName[attr] }} </span>
                 <span style="color: #bfbfbf">(选填)</span>
               </div>
               <input
                 class="common-input panel__item__form__card__input"
                 type="text"
-                placeholder="输入标题"
+                :value="info[attr]"
+                @change="updateFileForm(id, attr, $event.target.value)"
+                :placeholder="'请补充' + formName[attr]"
               />
             </div>
           </div>
         </div>
-        <button class="common-button item-remove">
+        <button
+          class="common-button item-remove"
+          @click="handlePanelRemove(id)"
+        >
           <img src="../../assets/trash.png" style="width: 24px" alt="" />
         </button>
       </div>
@@ -81,6 +90,7 @@
         <button
           class="common-button form__footer__content__button"
           :disabled="!uploadDone"
+          @click="handleFilesCreate(fileInfoList)"
         >
           提交内容
         </button>
@@ -98,16 +108,25 @@ export default {
     handlePicNavClick: Function,
     handleFileUpload: Function,
     showFileList: Array,
+    updateFileForm: Function,
     FILE_STATUS: Object,
+    handlePanelRemove: Function,
+    handleFilesCreate: Function,
   },
   data: function () {
-    console.log(this.showFileList);
-    return {};
+    return {
+      formName: {
+        title: "标题",
+        intro: "介绍",
+        type: "类型",
+        other: "其他",
+      },
+    };
   },
   computed: {
     hasDoneNume: function () {
       return this.showFileList.filter(
-        (item) => item.status === this.FILE_STATUS.DONE
+        (item) => item.uploadStatus === this.FILE_STATUS.DONE
       ).length;
     },
     uploadSum: function () {
@@ -115,6 +134,13 @@ export default {
     },
     uploadDone: function () {
       return this.hasDoneNume === this.uploadSum;
+    },
+    fileInfoList: function () {
+      return this.showFileList.map(
+        ({ tmpPath, username, title, intro, type, other }) => {
+          return { tmpPath, username, title, intro, type, other };
+        }
+      );
     },
   },
 };

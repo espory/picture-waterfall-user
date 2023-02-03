@@ -42,7 +42,24 @@
         :key="id"
       >
         <div class="panel__item">
-          <img class="panel__item__img" :src="imgURL" alt="" />
+          <div class="panel__item__img-container">
+            <img
+              :class="[
+                'panel__item__img',
+                {
+                  'panel__item__img-loading':
+                    info.uploadStatus === FILE_STATUS.UPLOADING,
+                },
+              ]"
+              :src="imgURL"
+              alt=""
+            />
+            <div
+              v-if="info.uploadStatus === FILE_STATUS.UPLOADING"
+              id="common-loader"
+              class="panel__item__img-loader"
+            ></div>
+          </div>
           <div class="panel__item__placeholder"></div>
           <div class="panel__item__form">
             <div
@@ -122,6 +139,10 @@ export default {
         other: "其他",
       },
     };
+  },
+  created: function () {
+    console.log("FILE_STATUS", this.FILE_STATUS);
+    console.log("showFileList", this.showFileList);
   },
   computed: {
     hasDoneNume: function () {
@@ -213,13 +234,30 @@ export default {
         justify-content: space-between;
         align-items: stretch;
         border-radius: 20px;
-        &__img {
+        &__img-container {
           flex: 1 0 48%;
           width: 0;
+          display: block;
+          background-color: #000;
+          border-radius: 10px;
+          position: relative;
+        }
+        &__img {
+          // flex: 1 0 48%;
+          width: 100%;
           display: block;
           // background-color: white;
           border-radius: 10px;
         }
+        &__img-loading {
+          opacity: 0.7;
+        }
+        &__img-loader {
+          position: absolute;
+          top: calc(50% - 40px);
+          left: calc(50% - 30px);
+        }
+
         &__placeholder {
           flex: 0 0 4%;
         }

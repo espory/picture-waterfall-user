@@ -35,7 +35,11 @@
         </button>
       </div>
       <div class="nav__container__right">
-        <button class="common-button" style="width: 80px; height: 50px">
+        <button
+          class="common-button"
+          style="width: 80px; height: 50px"
+          @click="jump('/home')"
+        >
           返回首页
         </button>
       </div>
@@ -47,6 +51,11 @@
 export default {
   name: "HeaderPart",
   props: {},
+  methods: {
+    jump(path) {
+      this.$router.push(path);
+    },
+  },
 };
 </script>
 

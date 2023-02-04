@@ -7,7 +7,7 @@
           alt="logo"
           src="../assets/logo.png"
         />
-        <span class="nav__container__left__name">Waterfull</span>
+        <span class="nav__container__left__name">Waterfall</span>
       </div>
       <div class="nav__container__mid">
         <input

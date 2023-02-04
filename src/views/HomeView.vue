@@ -1,15 +1,15 @@
 <template>
-  <div class="home">待完成</div>
+  <PictureWaterfall />
 </template>
 
 <script>
 // @ is an alias to /src
-// import Home from "@/components/Home";
+import PictureWaterfall from "@/components/PictureWaterfall";
 
 export default {
   name: "HomeView",
   components: {
-    // Home,
+    PictureWaterfall,
   },
 };
 </script>

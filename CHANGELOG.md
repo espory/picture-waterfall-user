@@ -12,6 +12,13 @@
  - | 图片提交跳转 | [30540fb](https://github.com/espory/picture-waterfall-user/commit/30540fb)
  - | 完成上传页右侧表单列表 UI 绘制 | [1825b61](https://github.com/espory/picture-waterfall-user/commit/1825b61)
  - | 完善图片上传逻辑 | [1e26945](https://github.com/espory/picture-waterfall-user/commit/1e26945)
+ - | Header 组件跳转 Button 逻辑实现 | [17cec9c](https://github.com/espory/picture-waterfall-user/commit/17cec9c)
+
+
+### 🐛 Bug 修复
+范围|描述|commitId
+--|--|--
+ - | waterfull => waterfall | [5a6b0dd](https://github.com/espory/picture-waterfall-user/commit/5a6b0dd)
 
 
 ### 📝 文档

@@ -1,5 +1,16 @@
 import fetch from "./common/fetch";
 
+export function postGetPics(limit, offset) {
+  return fetch({
+    url: "/pic/get",
+    method: "get",
+    params: {
+      limit,
+      offset,
+    },
+  });
+}
+
 export function postUploadFile({ file }) {
   const formData = new FormData();
   formData.append(file.name, file);

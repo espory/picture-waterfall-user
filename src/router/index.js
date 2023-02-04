@@ -14,8 +14,8 @@ const routes = [
   },
   {
     path: "/",
-    name: "test",
-    component: UploadView,
+    name: "home",
+    component: HomeView,
   },
   {
     path: "/upload",

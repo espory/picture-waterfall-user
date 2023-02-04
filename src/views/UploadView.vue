@@ -197,8 +197,10 @@ export default {
     },
     async handleFilesCreate(fileInfoList) {
       console.log(fileInfoList);
-      const res = await postCreateFiles(fileInfoList);
-      console.log(res);
+      const { status } = await postCreateFiles(fileInfoList);
+      if (status === 200) {
+        this.$router.push("/result");
+      }
     },
     async handleFileUpload(e, type) {
       if (type === this.UPLOAD_TYPES.DROP) {

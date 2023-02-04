@@ -328,6 +328,15 @@ export default {
         width: 125px;
         height: 50px;
       }
+      &__button:disabled {
+        background-color: gray;
+        cursor: not-allowed;
+      }
+      &__button:disabled:active {
+        opacity: 1;
+        // background-color: gray;
+        // cursor: not-allowed;
+      }
     }
   }
 }

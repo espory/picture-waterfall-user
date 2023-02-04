@@ -1,8 +1,9 @@
-# 0.1.0 (2023-02-03)
+# 0.1.0 (2023-02-04)
 
 ### 🌟 新功能
 范围|描述|commitId
 --|--|--
+ - | 保存成功后，提示⽤户是否继续上传，还是返回列表⻚ | [20cc832](https://github.com/espory/picture-waterfall-user/commit/20cc832)
  - | 对接后端，完成上传图片功能 | [86ec72e](https://github.com/espory/picture-waterfall-user/commit/86ec72e)
  - | 上传列表锚点定位 | [b5550de](https://github.com/espory/picture-waterfall-user/commit/b5550de)
  - | 上传中增加 loading 动效 | [8b04ef6](https://github.com/espory/picture-waterfall-user/commit/8b04ef6)

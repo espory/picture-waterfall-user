@@ -8,12 +8,17 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/a",
+    path: "/home",
     name: "home",
     component: HomeView,
   },
   {
     path: "/",
+    name: "test",
+    component: UploadView,
+  },
+  {
+    path: "/upload",
     name: "upload",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -23,7 +28,7 @@ const routes = [
     component: UploadView,
   },
   {
-    path: "/b",
+    path: "/result",
     name: "result",
     component: ResultView,
   },

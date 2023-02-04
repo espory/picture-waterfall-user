@@ -38,9 +38,9 @@
         <button
           class="common-button"
           style="width: 80px; height: 50px"
-          @click="jump('/home')"
+          @click="jump(info.path)"
         >
-          返回首页
+          {{ info.title }}
         </button>
       </div>
     </div>
@@ -51,6 +51,31 @@
 export default {
   name: "HeaderPart",
   props: {},
+  data: function () {
+    return {
+      info: {
+        title: "上传图片",
+        path: "/upload",
+      },
+    };
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    $route: function () {
+      const pathname = window.location.pathname;
+      if (pathname.includes("home")) {
+        this.info = {
+          title: "上传图片",
+          path: "/upload",
+        };
+      } else if (pathname.includes("upload")) {
+        this.info = {
+          title: "返回首页",
+          path: "/home",
+        };
+      }
+    },
+  },
   methods: {
     jump(path) {
       this.$router.push(path);

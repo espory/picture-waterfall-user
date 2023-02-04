@@ -9,6 +9,7 @@
  - | 上传中增加 loading 动效 | [8b04ef6](https://github.com/espory/picture-waterfall-user/commit/8b04ef6)
  - | 添加上传图片列表侧边栏以及底部 UI 绘制 | [c03a7dc](https://github.com/espory/picture-waterfall-user/commit/c03a7dc)
  - | 添加图片上传界面 UI | [613da2f](https://github.com/espory/picture-waterfall-user/commit/613da2f)
+ - | 图片提交跳转 | [30540fb](https://github.com/espory/picture-waterfall-user/commit/30540fb)
  - | 完成上传页右侧表单列表 UI 绘制 | [1825b61](https://github.com/espory/picture-waterfall-user/commit/1825b61)
  - | 完善图片上传逻辑 | [1e26945](https://github.com/espory/picture-waterfall-user/commit/1e26945)
 

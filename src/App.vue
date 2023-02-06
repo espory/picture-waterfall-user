@@ -58,7 +58,11 @@ export default {
   justify-content: center;
   align-items: center;
 }
-#common-loader {
+.common-loader {
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 30px);
+
   border: 5px solid #f3f3f3;
   border-top: 5px solid #555;
   border-radius: 50%;
@@ -66,6 +70,9 @@ export default {
   height: 50px;
   display: inline-block;
   animation: spin 2s linear infinite;
+}
+.common-img-loading {
+  opacity: 0.5;
 }
 
 @keyframes spin {

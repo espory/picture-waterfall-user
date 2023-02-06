@@ -11,7 +11,19 @@
           :key="pic.id"
           class="waterfall__col__container"
         >
-          <img :src="pic.path" alt="" @click="handleImgClick(pic.index)" />
+          <img
+            :src="pic.path"
+            alt=""
+            :class="{
+              'common-img-loading': pic.status === PIC_TYPES.LOADING,
+            }"
+            @load="handleImgLoad(pic.index)"
+            @click="handleImgClick(pic.index)"
+          />
+          <div
+            v-if="pic.status === PIC_TYPES.LOADING"
+            class="common-loader"
+          ></div>
         </div>
       </div>
     </div>
@@ -59,6 +71,11 @@ export default {
       },
       //避免图片请求冲突
       isRequesting: false,
+      // 图片加载状态
+      PIC_TYPES: {
+        LOADING: "LOADING",
+        DONE: "DONE",
+      },
     };
   },
   computed: {
@@ -98,6 +115,7 @@ export default {
       const filterData = data.filter((item) => !this.picKeys.includes(item.id));
       filterData.forEach((pic) => {
         pic.path = `${HOST}/${pic.path}`;
+        pic.status = this.PIC_TYPES.LOADING; //初始页面处于loading 状态
       });
       this.pictureList.push(...filterData);
       // 刷新图片 index ，方便大图展示
@@ -152,6 +170,9 @@ export default {
           break;
       }
     },
+    handleImgLoad(index) {
+      this.pictureList[index].status = this.PIC_TYPES.DONE;
+    },
   },
 };
 </script>
@@ -172,6 +193,8 @@ export default {
 
       // background-color: aqua;
       &__container {
+        position: relative;
+        min-height: 400px;
         padding: 20px;
         cursor: pointer;
         img {
@@ -191,14 +214,15 @@ export default {
     padding: 0px 100px;
     box-sizing: border-box;
     z-index: 10;
+    // img:active {
+    //   opacity: 0.5;
+    // }
     &__content {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
-    img:active {
-      opacity: 0.5;
-    }
+
     &__icon-close {
       position: absolute;
       right: 40px;

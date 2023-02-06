@@ -47,7 +47,7 @@
               :class="[
                 'panel__item__img',
                 {
-                  'panel__item__img-loading':
+                  'common-img-loading':
                     info.uploadStatus === FILE_STATUS.UPLOADING,
                 },
               ]"
@@ -56,8 +56,7 @@
             />
             <div
               v-if="info.uploadStatus === FILE_STATUS.UPLOADING"
-              id="common-loader"
-              class="panel__item__img-loader"
+              class="common-loader"
             ></div>
           </div>
           <div class="panel__item__placeholder"></div>
@@ -249,14 +248,14 @@ export default {
           // background-color: white;
           border-radius: 10px;
         }
-        &__img-loading {
-          opacity: 0.7;
-        }
-        &__img-loader {
-          position: absolute;
-          top: calc(50% - 40px);
-          left: calc(50% - 30px);
-        }
+        // &__img-loading {
+        //   opacity: 0.7;
+        // }
+        // &__img-loader {
+        //   position: absolute;
+        //   top: calc(50% - 40px);
+        //   left: calc(50% - 30px);
+        // }
 
         &__placeholder {
           flex: 0 0 4%;

@@ -1,4 +1,4 @@
-# 0.1.0 (2023-02-04)
+# 0.1.0 (2023-02-06)
 
 ### 🌟 新功能
 范围|描述|commitId
@@ -7,6 +7,7 @@
  - | 对接后端，完成上传图片功能 | [86ec72e](https://github.com/espory/picture-waterfall-user/commit/86ec72e)
  - | 上传列表锚点定位 | [b5550de](https://github.com/espory/picture-waterfall-user/commit/b5550de)
  - | 上传中增加 loading 动效 | [8b04ef6](https://github.com/espory/picture-waterfall-user/commit/8b04ef6)
+ - | 实现首页瀑布流 | [63cf174](https://github.com/espory/picture-waterfall-user/commit/63cf174)
  - | 添加上传图片列表侧边栏以及底部 UI 绘制 | [c03a7dc](https://github.com/espory/picture-waterfall-user/commit/c03a7dc)
  - | 添加图片上传界面 UI | [613da2f](https://github.com/espory/picture-waterfall-user/commit/613da2f)
  - | 图片提交跳转 | [30540fb](https://github.com/espory/picture-waterfall-user/commit/30540fb)

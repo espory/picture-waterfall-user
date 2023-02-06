@@ -28,7 +28,17 @@
       </div>
     </div>
     <div v-if="mask.show" class="pic-modal">
-      <img class="pic-modal__content" :src="pictureList[mask.index].path" />
+      <img
+        :class="[
+          'pic-modal__content',
+          {
+            'common-img-loading': mask.status === PIC_TYPES.LOADING,
+          },
+        ]"
+        :src="pictureList[mask.index].path.replace('small-', '')"
+        @load="mask.status = PIC_TYPES.DONE"
+      />
+      <div v-if="mask.status === PIC_TYPES.LOADING" class="common-loader"></div>
       <img
         class="pic-modal__icon-close"
         src="../../assets/close.png"
@@ -67,6 +77,7 @@ export default {
       mask: {
         show: false,
         index: 0,
+        status: "LOADING",
         // rawScrollTop: 0, //记录弹出遮罩层前，滚动高度，方便后续还原
       },
       //避免图片请求冲突
@@ -114,7 +125,8 @@ export default {
       //防止重复添加
       const filterData = data.filter((item) => !this.picKeys.includes(item.id));
       filterData.forEach((pic) => {
-        pic.path = `${HOST}/${pic.path}`;
+        // 为了加快首屏渲染，初始加载缩略图，点击图片展示大图
+        pic.path = `${HOST}/small-${pic.path}`;
         pic.status = this.PIC_TYPES.LOADING; //初始页面处于loading 状态
       });
       this.pictureList.push(...filterData);
@@ -158,11 +170,13 @@ export default {
         case "next":
           if (this.mask.index < this.pictureList.length - 1) {
             this.mask.index += 1;
+            this.mask.status = this.PIC_TYPES.LOADING;
           }
           break;
         case "last":
           if (this.mask.index > 0) {
             this.mask.index -= 1;
+            this.mask.status = this.PIC_TYPES.LOADING;
           }
           break;
         default:

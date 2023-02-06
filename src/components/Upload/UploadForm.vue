@@ -237,7 +237,6 @@ export default {
           flex: 1 0 48%;
           width: 0;
           display: block;
-          background-color: #000;
           border-radius: 10px;
           position: relative;
         }

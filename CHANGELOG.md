@@ -10,6 +10,7 @@
  - | 瀑布流增加 loading 动画 | [751224b](https://github.com/espory/picture-waterfall-user/commit/751224b)
  - | 上传列表锚点定位 | [b5550de](https://github.com/espory/picture-waterfall-user/commit/b5550de)
  - | 上传中增加 loading 动效 | [8b04ef6](https://github.com/espory/picture-waterfall-user/commit/8b04ef6)
+ - | 实现上拉刷新页⾯ | [208e1ee](https://github.com/espory/picture-waterfall-user/commit/208e1ee)
  - | 实现首页瀑布流 | [63cf174](https://github.com/espory/picture-waterfall-user/commit/63cf174)
  - | 添加上传图片列表侧边栏以及底部 UI 绘制 | [c03a7dc](https://github.com/espory/picture-waterfall-user/commit/c03a7dc)
  - | 添加图片上传界面 UI | [613da2f](https://github.com/espory/picture-waterfall-user/commit/613da2f)

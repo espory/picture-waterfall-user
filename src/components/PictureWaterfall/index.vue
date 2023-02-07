@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 v-if="this.pictureList.length === 0">暂无图片，请先去上传</h1>
     <div class="waterfall">
       <div
         v-for="(picCol, index) in showPictureCols"

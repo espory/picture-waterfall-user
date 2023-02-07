@@ -98,7 +98,6 @@ export default {
       return this.pictureList.map((item) => item.id);
     },
     showPictureCols: function () {
-      console.log(this.isMobileDevice);
       const showColNum = this.isMobileDevice ? 2 : 3;
       const res = new Array(showColNum).fill(null).map(() => []);
       for (let index = 0; index < this.pictureList.length; index++) {
@@ -117,16 +116,41 @@ export default {
   mounted() {
     // 监听滚动事件，设置锚点定位
     window.addEventListener("scroll", this.onScroll, false);
+    window.addEventListener("touchstart", this.onTouchstart, false);
+    window.addEventListener("touchmove", this.onTouchmove, false);
+    window.addEventListener("touchend", this.onTouchend, false);
   },
   destroy() {
     // 移除监听器，不然当该vue组件被销毁了，监听器还在
     window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("touchstart", this.onTouchstart);
+    window.removeEventListener("touchmove", this.onTouchmove);
+    window.removeEventListener("touchend", this.onTouchend);
   },
   methods: {
+    onTouchstart(e) {
+      //记录初始滑动位置，只有在顶部进行下拉才有效
+      this.startPos =
+        document.documentElement.scrollTop === 0
+          ? e.changedTouches[0].clientY
+          : Infinity;
+    },
+    onTouchmove() {},
+    onTouchend(e) {
+      const endPos = e.changedTouches[0].clientY;
+      if (endPos - this.startPos > 100) {
+        console.log("触发更新");
+        this.offset = 0;
+        this.limit = 20;
+        this.done = false;
+        //瀑布流列数
+        this.pictureList = [];
+        this.getPics();
+      }
+    },
     async getPics() {
       this.isRequesting = true;
       const { data, done } = await postGetPics(this.limit, this.offset);
-      console.log(data, done);
       //防止重复添加
       const filterData = data.filter((item) => !this.picKeys.includes(item.id));
       filterData.forEach((pic) => {
@@ -150,7 +174,6 @@ export default {
         document.documentElement;
       //如果滚轮触底
       if (scrollTop + clientHeight >= scrollHeight) {
-        // console.log(scrollTop, clientHeight, scrollHeight);
         this.onRequestPics();
       }
     },
@@ -165,7 +188,6 @@ export default {
       this.mask.show = true;
       document.body.style.overflow = "hidden";
       this.mask.index = index;
-      console.log(index);
     },
     handleMaskClose() {
       this.mask.show = false;

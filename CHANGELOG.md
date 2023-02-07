@@ -6,6 +6,7 @@
  - | 保存成功后，提示⽤户是否继续上传，还是返回列表⻚ | [20cc832](https://github.com/espory/picture-waterfall-user/commit/20cc832)
  - | 点击图片可弹层展示大图，并且可以左右切换上一张，下一张 | [3a4f4b3](https://github.com/espory/picture-waterfall-user/commit/3a4f4b3)
  - | 对接后端，完成上传图片功能 | [86ec72e](https://github.com/espory/picture-waterfall-user/commit/86ec72e)
+ - | 兼容移动端 | [923f4fb](https://github.com/espory/picture-waterfall-user/commit/923f4fb)
  - | 瀑布流增加 loading 动画 | [751224b](https://github.com/espory/picture-waterfall-user/commit/751224b)
  - | 上传列表锚点定位 | [b5550de](https://github.com/espory/picture-waterfall-user/commit/b5550de)
  - | 上传中增加 loading 动效 | [8b04ef6](https://github.com/espory/picture-waterfall-user/commit/8b04ef6)

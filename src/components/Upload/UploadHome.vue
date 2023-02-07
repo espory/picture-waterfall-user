@@ -7,7 +7,10 @@
   >
     <!-- <span class="upload__status">(0/20)</span> -->
     <img class="upload__logo" alt="images" src="../../assets/images.png" />
-    <h3 class="upload__title">将图片拖拽到此处<br />上传，或者</h3>
+    <h3 v-if="!isMobileDevice" class="upload__title">
+      将图片拖拽到此处<br />上传，或者
+    </h3>
+    <h3 v-else class="upload__title">点击上传图片</h3>
     <div class="upload__bottom">
       <label
         for="imageUpload"
@@ -34,6 +37,7 @@ export default {
   props: {
     UPLOAD_TYPES: Object,
     handleFileUpload: Function,
+    isMobileDevice: Boolean,
   },
   data: function () {
     return {};
@@ -78,6 +82,12 @@ export default {
   &__bottom {
     &__button {
     }
+  }
+}
+@media only screen and (max-width: 767px) {
+  .upload {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 </style>

@@ -4,6 +4,7 @@
       v-if="isShowUploadHome"
       :handleFileUpload="handleFileUpload"
       :UPLOAD_TYPES="UPLOAD_TYPES"
+      :isMobileDevice="isMobileDevice"
     />
     <upload-form
       :picNavActiveId="picNavActiveId"
@@ -15,6 +16,7 @@
       :FILE_STATUS="FILE_STATUS"
       :handlePanelRemove="handlePanelRemove"
       :handleFilesCreate="handleFilesCreate"
+      :isMobileDevice="isMobileDevice"
       v-else
     />
   </div>
@@ -29,6 +31,9 @@ export default {
   components: {
     UploadHome,
     UploadForm,
+  },
+  props: {
+    isMobileDevice: Boolean,
   },
   data: function () {
     return {

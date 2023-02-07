@@ -9,7 +9,7 @@
         />
         <span class="nav__container__left__name">Waterfall</span>
       </div>
-      <div class="nav__container__mid">
+      <div v-if="!isMobileDevice" class="nav__container__mid">
         <input
           class="common-input nav__container__mid__input"
           type="text"
@@ -35,11 +35,7 @@
         </button>
       </div>
       <div class="nav__container__right">
-        <button
-          class="common-button"
-          style="width: 80px; height: 50px"
-          @click="jump(info.path)"
-        >
+        <button class="common-button nav-button" @click="jump(info.path)">
           {{ info.title }}
         </button>
       </div>
@@ -50,12 +46,18 @@
 <script>
 export default {
   name: "HeaderPart",
-  props: {},
+  props: {
+    isMobileDevice: Boolean,
+  },
   data: function () {
     return {
       info: {
         title: "上传图片",
         path: "/upload",
+      },
+      home: {
+        title: "返回首页",
+        path: "/home",
       },
     };
   },
@@ -63,6 +65,7 @@ export default {
     // 如果路由有变化，会再次执行该方法
     $route: function () {
       const pathname = window.location.pathname;
+      console.log(pathname);
       if (pathname.includes("home")) {
         this.info = {
           title: "上传图片",
@@ -146,6 +149,21 @@ export default {
     }
     &__right {
       flex: 0 0 15%;
+      .nav-button {
+        width: 80px;
+        height: 50px;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 767px) {
+  .nav {
+    &__container {
+      &__right {
+        .nav-button {
+          width: 100px;
+        }
+      }
     }
   }
 }

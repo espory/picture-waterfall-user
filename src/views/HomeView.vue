@@ -1,5 +1,5 @@
 <template>
-  <PictureWaterfall />
+  <PictureWaterfall :isMobileDevice="isMobileDevice" />
 </template>
 
 <script>
@@ -10,6 +10,9 @@ export default {
   name: "HomeView",
   components: {
     PictureWaterfall,
+  },
+  props: {
+    isMobileDevice: Boolean,
   },
 };
 </script>

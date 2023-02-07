@@ -27,6 +27,8 @@
         </div>
       </div>
     </div>
+    <div v-if="isRequesting" class="common-loader bottom-loader"></div>
+
     <div v-if="mask.show" class="pic-modal">
       <img
         :class="[
@@ -40,18 +42,18 @@
       />
       <div v-if="mask.status === PIC_TYPES.LOADING" class="common-loader"></div>
       <img
-        class="pic-modal__icon-close"
+        class="pic-modal__option pic-modal__option-close"
         src="../../assets/close.png"
         @click="handleMaskClose"
       />
       <img
         @click="handlePicJump('last')"
-        class="pic-modal__icon-left"
+        class="pic-modal__option pic-modal__option-left"
         src="../../assets/angle-left.png"
       />
       <img
         @click="handlePicJump('next')"
-        class="pic-modal__icon-right"
+        class="pic-modal__option pic-modal__option-right"
         src="../../assets/angle-right.png"
       />
       <p>{{ mentionText }}</p>
@@ -65,13 +67,15 @@ import { HOST } from "../../common/fetch";
 import _ from "lodash";
 export default {
   name: "PictureWaterfall",
-  props: {},
+  props: {
+    isMobileDevice: Boolean,
+  },
   data: function () {
     return {
       offset: 0,
       limit: 20,
       done: false,
-      showColNum: 3, //瀑布流一排 3 列
+      //瀑布流列数
       pictureList: [],
       //控制图片遮罩层
       mask: {
@@ -94,12 +98,13 @@ export default {
       return this.pictureList.map((item) => item.id);
     },
     showPictureCols: function () {
-      const res = new Array(this.showColNum).fill(null).map(() => []);
+      console.log(this.isMobileDevice);
+      const showColNum = this.isMobileDevice ? 2 : 3;
+      const res = new Array(showColNum).fill(null).map(() => []);
       for (let index = 0; index < this.pictureList.length; index++) {
         const pic = this.pictureList[index];
-        res[index % this.showColNum].push(pic);
+        res[index % showColNum].push(pic);
       }
-      console.log(123, res);
       return res;
     },
     mentionText: function () {
@@ -155,6 +160,7 @@ export default {
         this.getPics();
       }
     }, 300),
+
     handleImgClick(index) {
       this.mask.show = true;
       document.body.style.overflow = "hidden";
@@ -195,7 +201,7 @@ export default {
 <style scoped lang="less">
 .container {
   padding: 20px 0;
-  margin: 0 120px;
+  margin: 0 10vw;
   // display: none;
   .waterfall {
     display: flex;
@@ -208,7 +214,7 @@ export default {
       // background-color: aqua;
       &__container {
         position: relative;
-        min-height: 400px;
+        min-height: 20vh;
         padding: 20px;
         cursor: pointer;
         img {
@@ -216,6 +222,12 @@ export default {
         }
       }
     }
+  }
+  .bottom-loader {
+    position: static;
+    margin-top: 30px;
+    width: 30px;
+    height: 30px;
   }
   .pic-modal {
     // background-color: antiquewhite;
@@ -236,31 +248,34 @@ export default {
       height: 100%;
       object-fit: contain;
     }
-
-    &__icon-close {
+    &__option {
       position: absolute;
-      right: 40px;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 0;
+      background-color: rgb(255, 255, 255);
+    }
+    &__option:active {
+      background-color: rgb(91, 147, 211);
+    }
+    &__option-close {
+      right: 10px;
       top: 20px;
-      width: 50px;
-      opacity: 0.7;
-      cursor: pointer;
+      width: 40px;
     }
-    &__icon-left {
-      position: absolute;
-      left: 40px;
-      width: 50px;
+
+    &__option-left {
+      left: 10px;
+      width: 40px;
       top: calc(50vh - 25px);
-      opacity: 0.5;
-      cursor: pointer;
     }
-    &__icon-right {
-      position: absolute;
-      right: 40px;
-      width: 50px;
+
+    &__option-right {
+      right: 10px;
+      width: 40px;
       top: calc(50vh - 25px);
-      opacity: 0.5;
-      cursor: pointer;
     }
+
     p {
       position: absolute;
       left: 0;
@@ -269,6 +284,58 @@ export default {
       font-weight: 900;
       opacity: 0.7;
     }
+  }
+}
+
+@media (min-width: 1200px) {
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 992px) {
+}
+
+@media only screen and (max-width: 767px) {
+  .container {
+    margin: 0 5px;
+    .waterfall__col {
+      flex: 0 0 50%;
+      &__container {
+        padding: 10px;
+      }
+    }
+    .pic-modal {
+      padding: 8vh 0;
+      p {
+        bottom: 20px;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 900;
+        color: white;
+      }
+      &__option-close {
+        right: 10px;
+        top: 20px;
+        width: 40px;
+      }
+
+      &__option-left {
+        left: 10px;
+        width: 40px;
+        top: auto;
+        bottom: 10px;
+        z-index: 20;
+      }
+
+      &__option-right {
+        right: 10px;
+        width: 40px;
+        top: auto;
+        bottom: 10px;
+        z-index: 20;
+      }
+    }
+  }
+  .nav__container__mid {
+    display: none;
   }
 }
 </style>

@@ -2,17 +2,45 @@
   <div id="app">
     <!-- 由于nav fixed 定位会”内陷“，因此添加此 div 进行占位 -->
     <div class="nav_placeholder"></div>
-    <header-part />
-    <router-view />
+    <header-part :isMobileDevice="isMobileDevice" />
+    <router-view :isMobileDevice="isMobileDevice" />
   </div>
 </template>
 <script>
 import HeaderPart from "./components/HeaderPart.vue";
 export default {
   components: { HeaderPart },
+  data: function () {
+    return {
+      isMobileDevice: false,
+    };
+  },
+  created() {
+    this.onResize();
+  },
+  mounted() {
+    // 监听滚动事件，设置锚点定位
+    window.addEventListener("resize", this.onResize, false);
+  },
+  destroy() {
+    // 移除监听器，不然当该vue组件被销毁了，监听器还在
+    window.removeEventListener("resize", this.onResize);
+  },
+  methods: {
+    onResize() {
+      if (document.documentElement.clientWidth > 767) {
+        this.isMobileDevice = false;
+      } else {
+        this.isMobileDevice = true;
+      }
+    },
+  },
 };
 </script>
 <style lang="less">
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 #app {
   font-family: PlusJakartaSans, -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Oxygen, Cantarell, Helvetica Neue, Ubuntu, sans-serif;

@@ -101,7 +101,7 @@
             style="width: 20px; margin-right: 10px"
             alt=""
           />
-          已上传 {{ hasDoneNume }} 张图片 ( 共计 {{ uploadSum }} 张 )
+          已上传 {{ hasDoneNum }} 张图片 ( 共计 {{ uploadSum }} 张 )
         </div>
         <button
           class="common-button form__footer__content__button"
@@ -128,6 +128,7 @@ export default {
     FILE_STATUS: Object,
     handlePanelRemove: Function,
     handleFilesCreate: Function,
+    isMobileDevice: Boolean,
   },
   data: function () {
     return {
@@ -144,7 +145,7 @@ export default {
     console.log("showFileList", this.showFileList);
   },
   computed: {
-    hasDoneNume: function () {
+    hasDoneNum: function () {
       return this.showFileList.filter(
         (item) => item.uploadStatus === this.FILE_STATUS.DONE
       ).length;
@@ -153,7 +154,7 @@ export default {
       return this.showFileList.length;
     },
     uploadDone: function () {
-      return this.hasDoneNume === this.uploadSum;
+      return this.hasDoneNum === this.uploadSum;
     },
     fileInfoList: function () {
       return this.showFileList.map(
@@ -334,6 +335,100 @@ export default {
         opacity: 1;
         // background-color: gray;
         // cursor: not-allowed;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 767px) {
+  .form {
+    // flex-direction: column;
+    margin: 0;
+    &__left {
+      display: none;
+      &-fixed {
+        width: 100%;
+        flex-direction: row;
+        overflow: scroll;
+        top: 80px;
+        background-color: white;
+        z-index: 99;
+      }
+      &__button {
+        flex: 0 0 80px;
+        margin: 10px;
+        &__icon {
+        }
+      }
+      &__card {
+        margin: 10px;
+        &__img {
+        }
+      }
+      &__card-selected {
+      }
+    }
+
+    &__right {
+      margin: 0;
+      margin: 30px 0 110px;
+      .panel {
+        width: 100%;
+        flex-direction: column;
+        &__item {
+          padding: 10px 0 10px;
+          width: 100%;
+          flex-direction: column;
+          align-items: center;
+          &__img-container {
+            margin-top: 20px;
+            width: 50%;
+          }
+          &__img {
+          }
+
+          &__placeholder {
+          }
+          &__form {
+            width: 100%;
+            margin-top: 20px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            &__card {
+              margin-bottom: 10px;
+              width: 100%;
+              // padding: 0 20px;
+              &__title {
+              }
+              &__input {
+                width: 100%;
+                box-sizing: border-box;
+              }
+              &__input::placeholder {
+              }
+            }
+          }
+        }
+        .item-remove {
+          margin: 10px 0;
+        }
+      }
+    }
+    &__footer {
+      &__content {
+        width: 100%;
+        margin: 0;
+        padding: 0 10px;
+        box-sizing: border-box;
+        &__mention {
+        }
+        &__mention__pending {
+        }
+        &__button {
+        }
+        &__button:disabled {
+        }
+        &__button:disabled:active {
+        }
       }
     }
   }

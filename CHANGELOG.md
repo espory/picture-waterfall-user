@@ -1,4 +1,4 @@
-# 0.1.0 (2023-02-06)
+# 0.1.0 (2023-02-07)
 
 ### 🌟 新功能
 范围|描述|commitId
@@ -15,6 +15,7 @@
  - | 图片提交跳转 | [30540fb](https://github.com/espory/picture-waterfall-user/commit/30540fb)
  - | 完成上传页右侧表单列表 UI 绘制 | [1825b61](https://github.com/espory/picture-waterfall-user/commit/1825b61)
  - | 完善图片上传逻辑 | [1e26945](https://github.com/espory/picture-waterfall-user/commit/1e26945)
+ - | 优化首屏图片瀑布流访问速度 | [dad63db](https://github.com/espory/picture-waterfall-user/commit/dad63db)
  - | Header 组件跳转 Button 逻辑实现 | [17cec9c](https://github.com/espory/picture-waterfall-user/commit/17cec9c)
 
 

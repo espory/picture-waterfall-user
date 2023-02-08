@@ -1,4 +1,4 @@
-# 0.1.0 (2023-02-07)
+# 0.1.0 (2023-02-08)
 
 ### 🌟 新功能
 范围|描述|commitId
@@ -24,6 +24,7 @@
 ### 🐛 Bug 修复
 范围|描述|commitId
 --|--|--
+ - | 当图片瀑布流页面无内容时，给予用户提醒 | [723ca25](https://github.com/espory/picture-waterfall-user/commit/723ca25)
  - | waterfull => waterfall | [5a6b0dd](https://github.com/espory/picture-waterfall-user/commit/5a6b0dd)
 
 

@@ -25,6 +25,7 @@
 范围|描述|commitId
 --|--|--
  - | 当图片瀑布流页面无内容时，给予用户提醒 | [723ca25](https://github.com/espory/picture-waterfall-user/commit/723ca25)
+ - | 结果页表意不明的问题 | [e40dd0a](https://github.com/espory/picture-waterfall-user/commit/e40dd0a)
  - | waterfull => waterfall | [5a6b0dd](https://github.com/espory/picture-waterfall-user/commit/5a6b0dd)
 
 

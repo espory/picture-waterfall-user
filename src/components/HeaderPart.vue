@@ -55,10 +55,6 @@ export default {
         title: "上传图片",
         path: "/upload",
       },
-      home: {
-        title: "返回首页",
-        path: "/home",
-      },
     };
   },
   watch: {
@@ -66,15 +62,15 @@ export default {
     $route: function () {
       const pathname = window.location.pathname;
       console.log(pathname);
-      if (pathname.includes("home")) {
+      if (pathname.includes("upload")) {
+        this.info = {
+          title: "返回首页",
+          path: "/",
+        };
+      } else {
         this.info = {
           title: "上传图片",
           path: "/upload",
-        };
-      } else if (pathname.includes("upload")) {
-        this.info = {
-          title: "返回首页",
-          path: "/home",
         };
       }
     },

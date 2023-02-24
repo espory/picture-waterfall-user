@@ -2,7 +2,7 @@ import fetch from "./common/fetch";
 
 export function postGetPics(limit, offset) {
   return fetch({
-    url: "/pic/get",
+    url: "/pic/user/index",
     method: "get",
     params: {
       limit,
@@ -15,7 +15,7 @@ export function postUploadFile({ file }) {
   const formData = new FormData();
   formData.append(file.name, file);
   return fetch({
-    url: "/pic/upload",
+    url: "/pic/user/upload",
     method: "post",
     data: formData,
     headers: {
@@ -31,7 +31,7 @@ export function postUploadFile({ file }) {
  */
 export function postCreateFiles(fileInfoList) {
   return fetch({
-    url: "/pic/create",
+    url: "/pic/user/create",
     method: "post",
     data: {
       fileInfoList,

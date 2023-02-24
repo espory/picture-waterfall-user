@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <h1 v-if="this.pictureList.length === 0">暂无图片，请先去上传</h1>
-    <div class="waterfall">
+    <div class="mention">{{ this.mention }}</div>
+    <div class="waterfall" ref="waterfall">
       <div
         v-for="(picCol, index) in showPictureCols"
         :key="index"
@@ -94,6 +95,7 @@ export default {
         DONE: "DONE",
       },
       io: null,
+      mention: "",
     };
   },
   computed: {
@@ -144,17 +146,26 @@ export default {
           ? e.changedTouches[0].clientY
           : Infinity;
     },
-    onTouchmove() {},
-    onTouchend(e) {
+    onTouchmove(e) {
+      const endPos = e.changedTouches[0].clientY;
+      const diff = endPos - this.startPos;
+      if (diff >= 0 && diff < 50) {
+        this.mention = "下拉刷新";
+      } else if (diff > 100) {
+        this.mention = "释放更新";
+      }
+    },
+    async onTouchend(e) {
       const endPos = e.changedTouches[0].clientY;
       if (endPos - this.startPos > 100) {
-        console.log("触发更新");
+        this.mention = "更新中...";
         this.offset = 0;
         this.limit = 20;
         this.done = false;
         //瀑布流列数
         this.pictureList = [];
-        this.getPics();
+        await this.getPics();
+        this.mention = "";
       }
     },
     async getPics() {

@@ -3,7 +3,7 @@
     class="upload"
     @dragenter="preventDragDefault"
     @dragover="preventDragDefault"
-    @drop="handleFileUpload($event, UPLOAD_TYPES.DROP)"
+    @drop="handleFileUpload($event, uploadTypes.DROP)"
   >
     <!-- <span class="upload__status">(0/20)</span> -->
     <img class="upload__logo" alt="images" src="../../assets/images.png" />
@@ -25,7 +25,7 @@
         name="imageUpload"
         accept="image/png, image/jpeg, image/gif"
         multiple
-        @change="handleFileUpload($event, UPLOAD_TYPES.INPUT)"
+        @change="handleFileUpload($event, uploadTypes.INPUT)"
       />
     </div>
   </section>
@@ -35,7 +35,7 @@
 export default {
   name: "UploadHome",
   props: {
-    UPLOAD_TYPES: Object,
+    uploadTypes: Object,
     handleFileUpload: Function,
     isMobileDevice: Boolean,
   },

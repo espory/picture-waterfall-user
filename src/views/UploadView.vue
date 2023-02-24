@@ -3,17 +3,17 @@
     <upload-home
       v-if="isShowUploadHome"
       :handleFileUpload="handleFileUpload"
-      :UPLOAD_TYPES="UPLOAD_TYPES"
+      :uploadTypes="uploadTypes"
       :isMobileDevice="isMobileDevice"
     />
     <upload-form
       :picNavActiveId="picNavActiveId"
       :handlePicNavClick="handlePicNavClick"
       :handleFileUpload="handleFileUpload"
-      :UPLOAD_TYPES="UPLOAD_TYPES"
+      :uploadTypes="uploadTypes"
       :showFileList="showFileList"
       :updateFileForm="updateFileForm"
-      :FILE_STATUS="FILE_STATUS"
+      :fileStatus="fileStatus"
       :handlePanelRemove="handlePanelRemove"
       :handleFilesCreate="handleFilesCreate"
       :isMobileDevice="isMobileDevice"
@@ -40,11 +40,11 @@ export default {
       picNavActiveId: 0,
       fileList: [], // id, file, uploadStatus, tmpPath, username, title, intro, type, other
       // 图片上传的方式：拖拽上传 或 input 上传
-      UPLOAD_TYPES: {
+      uploadTypes: {
         DROP: "DROP",
         INPUT: "INPUT",
       },
-      FILE_STATUS: {
+      fileStatus: {
         REDY: "REDY", // 图片准备上传
         UPLOADING: "UPLOADING", //正在上传
         DONE: "DONE", //上传完成
@@ -56,16 +56,16 @@ export default {
       handler(newfileList) {
         console.log(newfileList, "new1");
         const needPostItems = newfileList.filter(
-          (item) => item.uploadStatus === this.FILE_STATUS.REDY
+          (item) => item.uploadStatus === this.fileStatus.REDY
         );
         for (let index = 0; index < needPostItems.length; index++) {
           const item = needPostItems[index];
-          item.uploadStatus = this.FILE_STATUS.UPLOADING;
+          item.uploadStatus = this.fileStatus.UPLOADING;
           //并发上传图片
           postUploadFile({ file: item.file }).then(({ data }) => {
             const { tmpPath } = data;
             console.log(tmpPath);
-            item.uploadStatus = this.FILE_STATUS.DONE;
+            item.uploadStatus = this.fileStatus.DONE;
             item.tmpPath = tmpPath;
             console.log(tmpPath);
           });
@@ -208,15 +208,15 @@ export default {
       }
     },
     async handleFileUpload(e, type) {
-      if (type === this.UPLOAD_TYPES.DROP) {
+      if (type === this.uploadTypes.DROP) {
         e.preventDefault();
       }
       let files = null;
       switch (type) {
-        case this.UPLOAD_TYPES.DROP:
+        case this.uploadTypes.DROP:
           files = e.dataTransfer.files;
           break;
-        case this.UPLOAD_TYPES.INPUT:
+        case this.uploadTypes.INPUT:
           files = e.target.files;
           break;
         default:
@@ -228,7 +228,7 @@ export default {
         tempNewFileList.push({
           id: Math.random().toString(36).slice(-8),
           file,
-          uploadStatus: this.FILE_STATUS.REDY,
+          uploadStatus: this.fileStatus.REDY,
           tmpPath: null,
           username: "espory",
           title: "",

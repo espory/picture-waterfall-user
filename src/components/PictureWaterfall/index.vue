@@ -16,13 +16,13 @@
             :src="pic.path"
             alt=""
             :class="{
-              'common-img-loading': pic.status === PIC_TYPES.LOADING,
+              'common-img-loading': pic.status === picTypes.LOADING,
             }"
             @load="handleImgLoad(pic.index)"
             @click="handleImgClick(pic.index)"
           />
           <div
-            v-if="pic.status === PIC_TYPES.LOADING"
+            v-if="pic.status === picTypes.LOADING"
             class="common-loader"
           ></div>
         </div>
@@ -36,13 +36,13 @@
         :class="[
           'pic-modal__content',
           {
-            'common-img-loading': mask.status === PIC_TYPES.LOADING,
+            'common-img-loading': mask.status === picTypes.LOADING,
           },
         ]"
         :src="pictureList[mask.index].path.replace('small-', '')"
-        @load="mask.status = PIC_TYPES.DONE"
+        @load="mask.status = picTypes.DONE"
       />
-      <div v-if="mask.status === PIC_TYPES.LOADING" class="common-loader"></div>
+      <div v-if="mask.status === picTypes.LOADING" class="common-loader"></div>
       <img
         class="pic-modal__option pic-modal__option-close"
         src="../../assets/close.png"
@@ -89,7 +89,7 @@ export default {
       //避免图片请求冲突
       isRequesting: false,
       // 图片加载状态
-      PIC_TYPES: {
+      picTypes: {
         LOADING: "LOADING",
         DONE: "DONE",
       },
@@ -165,7 +165,7 @@ export default {
       filterData.forEach((pic) => {
         // 为了加快首屏渲染，初始加载缩略图，点击图片展示大图
         pic.path = `${HOST}/small-${pic.path}`;
-        pic.status = this.PIC_TYPES.LOADING; //初始页面处于loading 状态
+        pic.status = this.picTypes.LOADING; //初始页面处于loading 状态
       });
       this.pictureList.push(...filterData);
       // 刷新图片 index ，方便大图展示
@@ -214,13 +214,13 @@ export default {
         case "next":
           if (this.mask.index < this.pictureList.length - 1) {
             this.mask.index += 1;
-            this.mask.status = this.PIC_TYPES.LOADING;
+            this.mask.status = this.picTypes.LOADING;
           }
           break;
         case "last":
           if (this.mask.index > 0) {
             this.mask.index -= 1;
-            this.mask.status = this.PIC_TYPES.LOADING;
+            this.mask.status = this.picTypes.LOADING;
           }
           break;
         default:
@@ -229,7 +229,7 @@ export default {
       }
     },
     handleImgLoad(index) {
-      this.pictureList[index].status = this.PIC_TYPES.DONE;
+      this.pictureList[index].status = this.picTypes.DONE;
     },
   },
 };

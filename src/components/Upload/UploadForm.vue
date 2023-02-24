@@ -20,7 +20,7 @@
           name="imageUpload"
           accept="image/png, image/jpeg, image/gif"
           multiple
-          @change="handleFileUpload($event, UPLOAD_TYPES.INPUT)"
+          @change="handleFileUpload($event, uploadTypes.INPUT)"
         />
         <div
           v-for="({ id, imgURL }, index) in showFileList"
@@ -48,14 +48,14 @@
                 'panel__item__img',
                 {
                   'common-img-loading':
-                    info.uploadStatus === FILE_STATUS.UPLOADING,
+                    info.uploadStatus === fileStatus.UPLOADING,
                 },
               ]"
               :src="imgURL"
               alt=""
             />
             <div
-              v-if="info.uploadStatus === FILE_STATUS.UPLOADING"
+              v-if="info.uploadStatus === fileStatus.UPLOADING"
               class="common-loader"
             ></div>
           </div>
@@ -120,12 +120,12 @@ export default {
   name: "UploadForm",
   props: {
     picNavActiveId: Number,
-    UPLOAD_TYPES: Object,
+    uploadTypes: Object,
     handlePicNavClick: Function,
     handleFileUpload: Function,
     showFileList: Array,
     updateFileForm: Function,
-    FILE_STATUS: Object,
+    fileStatus: Object,
     handlePanelRemove: Function,
     handleFilesCreate: Function,
     isMobileDevice: Boolean,
@@ -141,13 +141,13 @@ export default {
     };
   },
   created: function () {
-    console.log("FILE_STATUS", this.FILE_STATUS);
+    console.log("fileStatus", this.fileStatus);
     console.log("showFileList", this.showFileList);
   },
   computed: {
     hasDoneNum: function () {
       return this.showFileList.filter(
-        (item) => item.uploadStatus === this.FILE_STATUS.DONE
+        (item) => item.uploadStatus === this.fileStatus.DONE
       ).length;
     },
     uploadSum: function () {

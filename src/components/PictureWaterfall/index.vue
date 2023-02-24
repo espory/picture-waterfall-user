@@ -66,7 +66,7 @@
 <script>
 import { postGetPics } from "../../service";
 import { HOST } from "../../common/fetch";
-import _ from "lodash";
+const debounce = require("lodash.debounce");
 export default {
   name: "PictureWaterfall",
   props: {
@@ -192,7 +192,7 @@ export default {
       if (entries[0].intersectionRatio <= 0) return;
       this.onRequestPics();
     },
-    onRequestPics: _.debounce(function () {
+    onRequestPics: debounce(function () {
       // 请求接口，如果后端数据全拿到了或者正在发起请求，则略过
       console.log(111);
       if (!this.done && !this.isRequesting) {

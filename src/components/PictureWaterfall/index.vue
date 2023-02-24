@@ -28,6 +28,7 @@
         </div>
       </div>
     </div>
+    <div class="waterfall__footer" ref="waterfallFooter"></div>
     <div v-if="isRequesting" class="common-loader bottom-loader"></div>
 
     <div v-if="mask.show" class="pic-modal">
@@ -92,6 +93,7 @@ export default {
         LOADING: "LOADING",
         DONE: "DONE",
       },
+      io: null,
     };
   },
   computed: {
@@ -116,17 +118,23 @@ export default {
   },
   mounted() {
     // 监听滚动事件，设置锚点定位
-    window.addEventListener("scroll", this.onScroll, false);
+    // window.addEventListener("scroll", this.onScroll, false);
     window.addEventListener("touchstart", this.onTouchstart, false);
     window.addEventListener("touchmove", this.onTouchmove, false);
     window.addEventListener("touchend", this.onTouchend, false);
+    this.io = new IntersectionObserver(this.onHandleObserve);
+    this.io.observe(this.$refs.waterfallFooter);
   },
   destroy() {
     // 移除监听器，不然当该vue组件被销毁了，监听器还在
-    window.removeEventListener("scroll", this.onScroll);
+    // window.removeEventListener("scroll", this.onScroll);
     window.removeEventListener("touchstart", this.onTouchstart);
     window.removeEventListener("touchmove", this.onTouchmove);
     window.removeEventListener("touchend", this.onTouchend);
+
+    // 关闭观察器
+    this.io.unobserve(this.$refs.waterfallFooter);
+    this.io.disconnect();
   },
   methods: {
     onTouchstart(e) {
@@ -170,16 +178,23 @@ export default {
       }
       this.isRequesting = false;
     },
-    onScroll() {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      //如果滚轮触底
-      if (scrollTop + clientHeight >= scrollHeight) {
-        this.onRequestPics();
-      }
+    // onScroll() {
+    //   const { scrollTop, clientHeight, scrollHeight } =
+    //     document.documentElement;
+    //   //如果滚轮触底
+    //   if (scrollTop + clientHeight >= scrollHeight) {
+    //     this.onRequestPics();
+    //   }
+    // },
+    onHandleObserve(entries) {
+      console.log(entries);
+      // 如果不可见，就返回
+      if (entries[0].intersectionRatio <= 0) return;
+      this.onRequestPics();
     },
     onRequestPics: _.debounce(function () {
       // 请求接口，如果后端数据全拿到了或者正在发起请求，则略过
+      console.log(111);
       if (!this.done && !this.isRequesting) {
         this.getPics();
       }
@@ -227,6 +242,7 @@ export default {
   margin: 0 10vw;
   // display: none;
   .waterfall {
+    min-height: 90vh;
     display: flex;
     justify-content: space-between;
     // display: none;
@@ -244,6 +260,10 @@ export default {
           width: 100%;
         }
       }
+    }
+    &__footer {
+      width: 100%;
+      height: 20vh;
     }
   }
   .bottom-loader {

@@ -29,7 +29,6 @@
         </div>
       </div>
     </div>
-    <div class="waterfall__footer" ref="waterfallFooter"></div>
     <div v-if="isRequesting" class="common-loader bottom-loader"></div>
 
     <div v-if="mask.show" class="pic-modal">
@@ -61,6 +60,7 @@
       />
       <p>{{ mentionText }}</p>
     </div>
+    <div id="footer" class="waterfall__footer" ref="waterfallFooter"></div>
   </div>
 </template>
 
@@ -128,12 +128,12 @@ export default {
     this.io.observe(this.$refs.waterfallFooter);
   },
   destroy() {
+    console.log("destroy");
     // 移除监听器，不然当该vue组件被销毁了，监听器还在
     // window.removeEventListener("scroll", this.onScroll);
     window.removeEventListener("touchstart", this.onTouchstart);
     window.removeEventListener("touchmove", this.onTouchmove);
     window.removeEventListener("touchend", this.onTouchend);
-
     // 关闭观察器
     this.io.unobserve(this.$refs.waterfallFooter);
     this.io.disconnect();
@@ -198,18 +198,16 @@ export default {
     //   }
     // },
     onHandleObserve(entries) {
-      console.log(entries);
       // 如果不可见，就返回
       if (entries[0].intersectionRatio <= 0) return;
       this.onRequestPics();
     },
     onRequestPics: debounce(function () {
       // 请求接口，如果后端数据全拿到了或者正在发起请求，则略过
-      console.log(111);
       if (!this.done && !this.isRequesting) {
         this.getPics();
       }
-    }, 300),
+    }, 1000),
 
     handleImgClick(index) {
       this.mask.show = true;
@@ -264,7 +262,7 @@ export default {
       // background-color: aqua;
       &__container {
         position: relative;
-        min-height: 20vh;
+        // min-height: 20vh;
         padding: 20px;
         cursor: pointer;
         img {
